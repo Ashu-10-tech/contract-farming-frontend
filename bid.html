@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bid on Tender</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="navbar">
+            <a href="index.html" class="logo">FARM TECH</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+                <a href="upload-tender.html">Upload Tender</a>
+                <a href="bid.html">Bid on Tender</a>
+            </div>
+        </div>
+    </nav>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Place Your Bid</h1>
+            <p>Submit your bid for the selected tender.</p>
+        </div>
+    </section>
+    <div class="form-container">
+        <form id="bid-form">
+            <input type="text" id="tender-id" placeholder="Tender ID" required>
+            <input type="number" id="bid-amount" placeholder="Bid Amount" required>
+            <button type="submit" class="btn btn-primary">Submit Bid</button>
+        </form>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <h3>About Us</h3>
+            <p>Connecting farmers with companies for sustainable agriculture and fair contracts.</p>
+        </div>
+        <div class="copyright">
+            &copy; 2025 ContractFarming. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>
+
+document.getElementById('bid-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    const tenderId = urlParams.get('tenderId');
+    const amount = document.getElementById('bid-amount').value;
+    const token = localStorage.getItem('token');
+  
+    const res = await fetch(`https://contract-farming-backend.onrender.com/api/tenders/${tenderId}/bid`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      body: JSON.stringify({ amount })
+    });
+  
+    const data = await res.json();
+    if (res.ok) {
+      alert('Bid submitted successfully!');
+      window.location.href = 'index.html';
+    } else {
+      alert(data.error);
+    }
+  });
+  

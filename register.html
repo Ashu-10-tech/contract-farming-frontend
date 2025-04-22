@@ -1,0 +1,128 @@
+<!-- Header -->
+<header class="header">
+  <h1 class="site-title">🌳 Contract Farming Web App</h1>
+  <!-- <nav class="nav-bar">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </nav> -->
+</header>
+
+<main class="auth-page" style="background-image: url('images/register-bg.jpg'); background-size: cover; background-position: center;">
+  <div class="auth-card">
+    <!-- <img src="images/register-icon.png" alt="Register Icon" class="auth-icon" /> -->
+    <h2 class="auth-title">Create Account</h2>
+    <form class="auth-form" novalidate>
+      <input type="text" class="input-field" placeholder="👤 Username" name="username" required aria-label="Username" />
+      <input type="email" class="input-field" placeholder="📧 Email" name="email" required aria-label="Email" />
+      <input type="password" class="input-field" placeholder="🔒 Password" name="password" required aria-label="Password" />
+      <input type="password" class="input-field" placeholder="🔒 Confirm Password" name="confirm-password" required aria-label="Confirm Password" />
+      <button type="submit" class="auth-button">Register</button>
+      <p class="auth-text">Already have an account? <a href="login.html" class="auth-link">Login</a></p>
+    </form>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>&copy; 2025 🌾 Contract Farming Web App. All rights reserved.</p>
+  <!-- <div class="social-icons">
+    <a href="#" class="social-link" aria-label="Facebook"><img src="images/facebook-icon.png" alt="Facebook" /></a>
+    <a href="#" class="social-link" aria-label="Twitter"><img src="images/twitter-icon.png" alt="Twitter" /></a>
+    <a href="#" class="social-link" aria-label="Instagram"><img src="images/instagram-icon.png" alt="Instagram" /></a>
+  </div> -->
+</footer>
+
+<!-- Additional CSS for Styling -->
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .header {
+    background-color: #ffffff;
+    padding: 20px;
+    text-align: center;
+  }
+  .nav-bar {
+    margin-top: 10px;
+  }
+  .nav-link {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333333;
+  }
+  .auth-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .auth-card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  .auth-title {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .auth-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .auth-button:hover {
+    background-color: #45a049;
+  }
+  .footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f1f1f1;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+  .social-icons {
+    margin-top: 10px;
+  }
+  .social-link {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333333;
+  }
+</style>
+
+document.querySelector('.auth-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = e.target.username.value;
+  const email = e.target.email.value;
+  const password = e.target.password.value;
+  const role = document.querySelector('input[name="user_type"]:checked')?.value || 'farmer';
+
+  const res = await fetch('https://contract-farming-backend.onrender.com/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, email, password, role })
+  });
+
+  const data = await res.json();
+  if (res.ok) {
+    alert('Registered successfully!');
+    window.location.href = 'login.html';
+  } else {
+    alert(data.error || 'Error during registration');
+  }
+});
