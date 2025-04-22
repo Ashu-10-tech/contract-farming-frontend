@@ -124,6 +124,13 @@
     const username = e.target.username.value;
     const password = e.target.password.value;
 
+    const user = await User.findOne({ username });
+    if (!user) return res.status(400).json({ error: 'User not found' });
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(400).json({ error: 'Invalid password' });
+
+
     const res = await fetch('https://your-backend.onrender.com/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
