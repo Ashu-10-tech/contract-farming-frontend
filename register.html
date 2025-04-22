@@ -13,6 +13,10 @@
     <!-- <img src="images/register-icon.png" alt="Register Icon" class="auth-icon" /> -->
     <h2 class="auth-title">Create Account</h2>
     <form class="auth-form" novalidate>
+      <select name="role">
+        <option value="farmer">Farmer</option>
+        <option value="company">Company</option>
+      </select>
       <input type="text" class="input-field" placeholder="👤 Username" name="username" required aria-label="Username" />
       <input type="email" class="input-field" placeholder="📧 Email" name="email" required aria-label="Email" />
       <input type="password" class="input-field" placeholder="🔒 Password" name="password" required aria-label="Password" />
@@ -104,7 +108,7 @@
     color: #333333;
   }
 </style>
-
+<script>
 document.querySelector('.auth-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const username = e.target.username.value;
@@ -126,3 +130,4 @@ document.querySelector('.auth-form').addEventListener('submit', async (e) => {
     alert(data.error || 'Error during registration');
   }
 });
+</script>
