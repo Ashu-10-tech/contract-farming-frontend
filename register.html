@@ -1,19 +1,20 @@
-<!-- Header -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Contract Farming Web App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 <header class="header">
   <h1 class="site-title">🌳 Contract Farming Web App</h1>
-  <!-- <nav class="nav-bar">
-    <a href="index.html" class="nav-link">Home</a>
-    <a href="about.html" class="nav-link">About</a>
-    <a href="contact.html" class="nav-link">Contact</a>
-  </nav> -->
 </header>
 
 <main class="auth-page" style="background-image: url('images/register-bg.jpg'); background-size: cover; background-position: center;">
   <div class="auth-card">
-    <!-- <img src="images/register-icon.png" alt="Register Icon" class="auth-icon" /> -->
     <h2 class="auth-title">Create Account</h2>
     <form class="auth-form" novalidate>
-      <select name="role">
+      <select name="role" required>
         <option value="farmer">Farmer</option>
         <option value="company">Company</option>
       </select>
@@ -29,14 +30,8 @@
 
 <footer class="footer">
   <p>&copy; 2025 🌾 Contract Farming Web App. All rights reserved.</p>
-  <!-- <div class="social-icons">
-    <a href="#" class="social-link" aria-label="Facebook"><img src="images/facebook-icon.png" alt="Facebook" /></a>
-    <a href="#" class="social-link" aria-label="Twitter"><img src="images/twitter-icon.png" alt="Twitter" /></a>
-    <a href="#" class="social-link" aria-label="Instagram"><img src="images/instagram-icon.png" alt="Instagram" /></a>
-  </div> -->
 </footer>
 
-<!-- Additional CSS for Styling -->
 <style>
   body {
     font-family: 'Arial', sans-serif;
@@ -47,14 +42,6 @@
     background-color: #ffffff;
     padding: 20px;
     text-align: center;
-  }
-  .nav-bar {
-    margin-top: 10px;
-  }
-  .nav-link {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #333333;
   }
   .auth-page {
     height: 100vh;
@@ -95,19 +82,10 @@
     text-align: center;
     padding: 20px;
     background-color: #f1f1f1;
-    position: relative;
-    bottom: 0;
     width: 100%;
   }
-  .social-icons {
-    margin-top: 10px;
-  }
-  .social-link {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #333333;
-  }
 </style>
+
 <script>
 document.querySelector('.auth-form').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -131,3 +109,5 @@ document.querySelector('.auth-form').addEventListener('submit', async (e) => {
   }
 });
 </script>
+</body>
+</html>
