@@ -211,6 +211,22 @@
             </div>
         `).join('');
     }
+document.querySelector('.auth-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = e.target.username.value;
+  const email = e.target.email.value;
+  const password = e.target.password.value;
+  const role = e.target.role.value;
+
+  const res = await fetch('https://contract-farming-backend.onrender.com/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, email, password, role })
+  });
+
+  const data = await res.json();
+  if (res.ok) {
+    alert('Registered successfully!');
 
     // Call this function on page load to display existing tenders
     window.addEventListener('DOMContentLoaded', fetchAndDisplayTenders);
