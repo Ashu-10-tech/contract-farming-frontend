@@ -90,77 +90,6 @@
             <a href="#" class="btn btn-outline">Contact Sales</a>
         </div>
     </section>
-    
-    <div class="register-container">
-        <div class="register-card">
-            <h2>Create Your Account</h2>
-            <form>
-                <div class="user-type">
-                    <h3>I am a:</h3>
-                    <div class="type-options">
-                        <div class="type-option">
-                            <input type="radio" id="farmer" name="user_type" value="farmer" checked>
-                            <label for="farmer">
-                                <i class="fas fa-tractor"></i>
-                                <div>Farmer</div>
-                            </label>
-                        </div>
-                        <div class="type-option">
-                            <input type="radio" id="company" name="user_type" value="company">
-                            <label for="company">
-                                <i class="fas fa-building"></i>
-                                <div>Company</div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="first_name">First Name</label>
-                        <input type="text" id="first_name" class="form-control" placeholder="Enter your first name"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <label for="last_name">Last Name</label>
-                        <input type="text" id="last_name" class="form-control" placeholder="Enter your last name"
-                            required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="Create a password" required>
-                    <div class="password-strength">
-                        <div class="strength-bar" id="strength-bar"></div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" class="form-control"
-                        placeholder="Confirm your password" required>
-                </div>
-
-                <div class="terms">
-                    <input type="checkbox" id="agree_terms" required>
-                    <label for="agree_terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy
-                            Policy</a></label>
-                </div>
-
-                <button type="submit" class="btn btn-primary register-btn">Create Account</button>
-
-                <div class="login-link">
-                    <p>Already have an account? <a href="login.html">Login here</a></p>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <footer>
         <div class="footer-content">
@@ -211,22 +140,6 @@
             </div>
         `).join('');
     }
-document.querySelector('.auth-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const username = e.target.username.value;
-  const email = e.target.email.value;
-  const password = e.target.password.value;
-  const role = e.target.role.value;
-
-  const res = await fetch('https://contract-farming-backend.onrender.com/api/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, email, password, role })
-  });
-
-  const data = await res.json();
-  if (res.ok) {
-    alert('Registered successfully!');
 
     // Call this function on page load to display existing tenders
     window.addEventListener('DOMContentLoaded', fetchAndDisplayTenders);
