@@ -23,7 +23,22 @@ body {
     display: flex;
     flex-direction: column;
 }
+.contract-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 6px;
+    background-color: #fafafa;
+    margin-top: 15px;
+    display: flex; /* Use flexbox for layout */
+}
 
+.contract-image {
+    width: 100px; /* Set a fixed width for the image */
+    height: 100px; /* Set a fixed height for the image */
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the image */
+    margin-right: 15px; /* Space between image and details */
+}
 /* Navigation */
 nav {
     background-color: var(--dark-bg);
