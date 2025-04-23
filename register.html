@@ -114,7 +114,7 @@ document.querySelector('.auth-form').addEventListener('submit', async (e) => {
   const username = e.target.username.value;
   const email = e.target.email.value;
   const password = e.target.password.value;
-  const role = document.querySelector('input[name="user_type"]:checked')?.value || 'farmer';
+  const role = e.target.role.value;
 
   const res = await fetch('https://contract-farming-backend.onrender.com/api/register', {
     method: 'POST',
