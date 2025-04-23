@@ -27,9 +27,10 @@
     </section>
     <div class="form-container">
         <form id="tender-form">
-            <input type="text" id="tender-title" placeholder="Tender Title" required>
-            <textarea id="tender-details" placeholder="Tender Details" required></textarea>
-            <input type="number" id="tender-value" placeholder="Tender Value" required>
+            <input type="text" id="tender-title" name="title" placeholder="Tender Title" required>
+            <textarea id="tender-details" name="details" placeholder="Tender Details" required></textarea>
+            <input type="number" id="tender-value" name="value" placeholder="Tender Value" required>
+            <input type="url" id="tender-image-url" name="imageUrl" placeholder="Image URL" required> <!-- New field for image URL -->
             <button type="submit" class="btn btn-primary">Upload Tender</button>
         </form>
     </div>
@@ -42,25 +43,24 @@
             &copy; 2025 ContractFarming. All rights reserved.
         </div>
     </footer>
-</body>
-</html>
 
-<script>
-document.getElementById('tender-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token');
-    const title = document.getElementById('tender-title').value;
-    const details = document.getElementById('tender-details').value;
-    const value = document.getElementById('tender-value').value;
-  
-    const res = await fetch('https://contract-farming-backend.onrender.com/api/tenders', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': token
-      },
-      body: JSON.stringify({ title, details, value })
-    });
+    <script>
+    document.getElementById('tender-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const tenderData = {
+            title: formData.get('title'),
+            details: formData.get('details'),
+            value: formData.get('value'),
+            imageUrl: formData.get('imageUrl') // Include image URL
+        };
+
+        const res = await fetch('https://contract-farming-backend.onrender.com/api/tenders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(tenderData)
+        });
+
   
     const data = await res.json();
     if (res.ok) {
