@@ -124,7 +124,6 @@
     const username = e.target.username.value;
     const password = e.target.password.value;
 
-
     const res = await fetch('https://contract-farming-backend.onrender.com/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -133,39 +132,21 @@
 
     const data = await res.json();
 
-    function validateUser Credentials(username, password) {
-    // This function should call your backend API to validate the credentials
-    // For demonstration, let's assume it returns a promise
-    return fetch('/api/validate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-    }).then(response => response.json());
-}
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.role);
 
-// Assuming you have a login function
-function login(username, password) {
-    validateUser Credentials(username, password)
-        .then(data => {
-            if (data.token) {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('role', data.role);
-                if (data.role === 'company') {
-                    window.location.href = 'dashboard-company.html';
-                } else if (data.role === 'farmer') {
-                    window.location.href = 'dashboard-farmer.html';
-                } else {
-                    console.error('Unknown role:', data.role);
-                }
-            } else {
-                console.error('Login failed:', data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error during login:', error);
-        });
-}
+      // 🚀 Redirect to appropriate dashboard
+      if (data.role === 'company') {
+        window.location.href = 'dashboard-company.html';
+      } else if (data.role === 'farmer') {
+        window.location.href = 'dashboard-farmer.html';
+      } else {
+        alert('Unknown role');
+      }
+    } else {
+      alert(data.error || 'Invalid credentials');
+    }
   });
 </script>
+
