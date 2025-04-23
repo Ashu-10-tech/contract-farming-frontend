@@ -115,102 +115,108 @@
     </footer>
 
   <script>
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
-    const BASE_URL = "https://contract-farming-backend.onrender.com/api"; // replace with real backend URL
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
+  const BASE_URL = "https://contract-farming-backend.onrender.com/api";
 
-    if (!token || !role) window.location.href = 'login.html';
+  if (!token || !role) window.location.href = 'login.html';
 
-    document.getElementById('dashboard-title').textContent = `Welcome, ${role.charAt(0).toUpperCase() + role.slice(1)}`;
+  document.getElementById('dashboard-title').textContent = `🌱 Welcome, ${role.charAt(0).toUpperCase() + role.slice(1)}!`;
 
-    if (role === 'company') {
-      document.getElementById('dashboard-desc').textContent = "Manage and review all your tenders here.";
-      const section = document.getElementById('company-section');
-      section.style.display = 'block';
-      section.innerHTML = `
-        <h2>Your Tenders</h2>
-        <form id="tender-form">
-          <input type="text" placeholder="Tender Title" id="tender-title" required>
-          <textarea placeholder="Tender Details" id="tender-details" required></textarea>
-          <input type="number" placeholder="Tender Value" id="tender-value" required>
-          <input type="url" name="imageUrl" placeholder="Image URL" required>
-          <button type="submit">Upload Tender</button>
-        </form>
-        <div id="posted-tenders"></div>
-      `;
+  if (role === 'company') {
+    document.getElementById('dashboard-desc').textContent = "👨‍💼 Upload tenders, monitor bids, and grow your agri-network.";
+    const section = document.getElementById('company-section');
+    section.style.display = 'block';
+    section.innerHTML = `
+      <img src="https://images.unsplash.com/photo-1581093588401-9347f8c24d67" alt="Company Agri Field" style="width:100%; max-height:250px; object-fit:cover; border-radius:8px; margin-bottom:1rem;">
+      <h2>📤 Post a New Tender</h2>
+      <form id="tender-form">
+        <input type="text" placeholder="🌾 Tender Title" id="tender-title" required>
+        <textarea placeholder="📝 Tender Details" id="tender-details" required></textarea>
+        <input type="number" placeholder="💰 Tender Value" id="tender-value" required>
+        <input type="url" name="imageUrl" id="image-url" placeholder="📷 Image URL (optional)">
+        <button type="submit">🚀 Upload Tender</button>
+      </form>
+      <h3>📋 Your Tenders & Bids</h3>
+      <div id="posted-tenders"></div>
+    `;
 
-      document.getElementById('tender-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const title = document.getElementById('tender-title').value;
-        const details = document.getElementById('tender-details').value;
-        const value = document.getElementById('tender-value').value;
-        await fetch(`${BASE_URL}/tenders`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': token },
-          body: JSON.stringify({ title, details, value })
-        });
-        alert('Tender uploaded');
-        location.reload();
-      });
-
-      fetch(`${BASE_URL}/tenders`, { headers: { Authorization: token } })
-        .then(res => res.json())
-        .then(tenders => {
-          const html = tenders.map(t => `
-            <div class="tender-card">
-              <h3>${t.title}</h3>
-              <p>${t.details}</p>
-              <p><strong>Value:</strong> ₹${t.value}</p>
-              <p><strong>Bids:</strong></p>
-              <ul>
-                ${(t.bids || []).map(b => `<li>Bid: ₹${b.amount} by ${b.farmer}</li>`).join('') || 'No bids yet'}
-              </ul>
-            </div>
-          `).join('');
-          document.getElementById('posted-tenders').innerHTML = html;
-        });
-    }
-
-    if (role === 'farmer') {
-      document.getElementById('dashboard-desc').textContent = "Explore tenders and track your bids.";
-      const section = document.getElementById('farmer-section');
-      section.style.display = 'block';
-      fetch(`${BASE_URL}/tenders`)
-        .then(res => res.json())
-        .then(tenders => {
-          const html = tenders.map(t => `
-            <div class="tender-card">
-              <h3>${t.title}</h3>
-              <p>${t.details}</p>
-              <p><strong>Value:</strong> ₹${t.value}</p>
-              <form onsubmit="submitBid(event, '${t._id}')">
-                <input type="number" id="bid-${t._id}" placeholder="Enter your bid" required>
-                <button type="submit">Submit Bid</button>
-              </form>
-            </div>
-          `).join('');
-          section.innerHTML += html;
-        });
-    }
-
-    function submitBid(e, id) {
+    document.getElementById('tender-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const amount = document.getElementById(`bid-${id}`).value;
-      fetch(`${BASE_URL}/tenders/${id}/bid`, {
+      const title = document.getElementById('tender-title').value;
+      const details = document.getElementById('tender-details').value;
+      const value = document.getElementById('tender-value').value;
+      const imageUrl = document.getElementById('image-url').value;
+      await fetch(`${BASE_URL}/tenders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': token },
-        body: JSON.stringify({ amount })
-      })
-      .then(() => {
-        alert('Bid submitted successfully!');
-        location.reload();
+        body: JSON.stringify({ title, details, value, imageUrl })
       });
-    }
+      alert('✅ Tender uploaded successfully!');
+      location.reload();
+    });
 
-    function logout() {
-      localStorage.clear();
-      window.location.href = 'login.html';
-    }
-  </script>
+    fetch(`${BASE_URL}/tenders`, { headers: { Authorization: token } })
+      .then(res => res.json())
+      .then(tenders => {
+        const html = tenders.map(t => `
+          <div class="tender-card">
+            ${t.imageUrl ? `<img src="${t.imageUrl}" style="width:100%; border-radius:6px; margin-bottom:10px;">` : ''}
+            <h4>📌 ${t.title}</h4>
+            <p>${t.details}</p>
+            <p><strong>Value:</strong> ₹${t.value}</p>
+            <p><strong>Bids:</strong></p>
+            <ul>
+              ${(t.bids || []).map(b => `<li>💸 ₹${b.amount} by ${b.farmer}</li>`).join('') || '<li>No bids yet</li>'}
+            </ul>
+          </div>
+        `).join('');
+        document.getElementById('posted-tenders').innerHTML = html;
+      });
+  }
+
+  if (role === 'farmer') {
+    document.getElementById('dashboard-desc').textContent = "🌾 Explore open tenders & submit your best bid to grow your farm!";
+    const section = document.getElementById('farmer-section');
+    section.style.display = 'block';
+    fetch(`${BASE_URL}/tenders`)
+      .then(res => res.json())
+      .then(tenders => {
+        const html = tenders.map(t => `
+          <div class="tender-card">
+            ${t.imageUrl ? `<img src="${t.imageUrl}" style="width:100%; border-radius:6px; margin-bottom:10px;">` : ''}
+            <h4>🌿 ${t.title}</h4>
+            <p>${t.details}</p>
+            <p><strong>Offered Value:</strong> ₹${t.value}</p>
+            <form onsubmit="submitBid(event, '${t._id}')">
+              <input type="number" id="bid-${t._id}" placeholder="💰 Enter your bid (₹)" required>
+              <button type="submit">🎯 Submit Bid</button>
+            </form>
+          </div>
+        `).join('');
+        section.innerHTML += html;
+      });
+  }
+
+  function submitBid(e, id) {
+    e.preventDefault();
+    const amount = document.getElementById(`bid-${id}`).value;
+    fetch(`${BASE_URL}/tenders/${id}/bid`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': token },
+      body: JSON.stringify({ amount })
+    })
+    .then(() => {
+      alert('🎉 Bid submitted successfully!');
+      location.reload();
+    });
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = 'login.html';
+  }
+</script>
+
 </body>
 </html>
