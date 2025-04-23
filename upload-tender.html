@@ -33,6 +33,7 @@
             <input type="url" id="tender-image-url" name="imageUrl" placeholder="Image URL" required> <!-- New field for image URL -->
             <button type="submit" class="btn btn-primary">Upload Tender</button>
         </form>
+        <div id="response-message"></div> <!-- Div to display response messages -->
     </div>
     <footer>
         <div class="footer-content">
@@ -46,7 +47,7 @@
 
     <script>
     document.getElementById('tender-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevent the default form submission
         const formData = new FormData(e.target);
         const tenderData = {
             title: formData.get('title'),
@@ -55,20 +56,30 @@
             imageUrl: formData.get('imageUrl') // Include image URL
         };
 
-        const res = await fetch('https://contract-farming-backend.onrender.com/api/tenders', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(tenderData)
-        });
+        try {
+            const res = await fetch('https://contract-farming-backend.onrender.com/api/tenders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(tenderData)
+            });
 
-  
-    const data = await res.json();
-    if (res.ok) {
-      alert('Tender uploaded!');
-      window.location.href = 'index.html';
-    } else {
-      alert(data.error);
-    }
-  });
-  
-</script>
+            const responseMessage = document.getElementById('response-message');
+
+            if (res.ok) {
+                responseMessage.textContent = 'Tender uploaded successfully!';
+                responseMessage.style.color = 'green';
+                e.target.reset(); // Reset the form after successful submission
+            } else {
+                const errorData = await res.json();
+                responseMessage.textContent = `Error: ${errorData.message || 'Failed to upload tender.'}`;
+                responseMessage.style.color = 'red';
+            }
+        } catch (error) {
+            const responseMessage = document.getElementById('response-message');
+            responseMessage.textContent = `Error: ${error.message}`;
+            responseMessage.style.color = 'red';
+        }
+    });
+    </script>
+</body>
+</html>
