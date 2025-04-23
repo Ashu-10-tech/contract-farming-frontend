@@ -13,8 +13,7 @@
         <div class="navbar">
             <a href="index.html" class="logo">
                 <i class="fas fa-leaf"></i>
-                <img src="C:\Users\negia\OneDrive\New folder\Documents\contract farming\ASSETS\img\logo.jpg" height="50"
-                    width="60">
+                <img src="ASSETS/img/logo.jpg" height="50" width="60">
                 <span> FARM TECH </span>
             </a>
             <div class="nav-links">
@@ -48,8 +47,7 @@
             <div class="feature-icon">
                 <i class="fas fa-handshake"></i>
             </div>
-            <img src="C:\Users\negia\OneDrive\New folder\Documents\contract farming\ASSETS\img\handshake.jpg"
-            alt="handshake" width="100" height="100">
+            <img src="ASSETS/img/handshake.jpg" alt="handshake" width="100" height="100">
             <h3>Fair Contracts</h3>
             <p>Transparent agreements that benefit both farmers and companies with clear terms and pricing.</p>
         </div>
@@ -58,8 +56,7 @@
             <div class="feature-icon">
                 <i class="fas fa-chart-line"></i>
             </div>
-            <img src="C:\Users\negia\Downloads\network.png"
-            alt="network" width="100" height="100">
+            <img src="ASSETS/img/network.png" alt="network" width="100" height="100">
             <h3>Market Access</h3>
             <p>Connect directly with buyers and secure better prices for your produce.</p>
         </div>
@@ -68,8 +65,7 @@
             <div class="feature-icon">
                 <i class="fas fa-shield-alt"></i>
             </div>
-            <img src="C:\Users\negia\Downloads\marketing.png" 
-            alt="marketing" width="100" height="100">
+            <img src="ASSETS/img/marketing.png" alt="marketing" width="100" height="100">
             <h3>Risk Reduction</h3>
             <p>Minimize market fluctuations with guaranteed contracts and stable income.</p>
         </div>
@@ -82,53 +78,7 @@
         </div>
 
         <div class="contract-grid">
-            <div class="contract-card">
-                <div class="contract-image"
-                    style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgOOqz9snghNVAh-yXFPAr_1Zfjsw2G3GoYQ&s');">
-                </div>
-                <div class="contract-details">
-                    <h3>Organic Wheat Production</h3>
-                    <div class="contract-meta">
-                        <span><i class="fas fa-dollar-sign"></i> &#8377;50,000</span>
-                        <span><i class="fas fa-calendar-alt"></i> 6 months</span>
-                    </div>
-                    <p class="contract-description">Looking for organic wheat farmers to supply 50 tons of high-quality
-                        wheat for our bakery chain.</p>
-                    <a href="#" class="btn btn-primary btn-view">View Details</a>
-                </div>
-            </div>
-
-            <div class="contract-card">
-                <div class="contract-image"
-                    style="background-image: url('https://mittalcornezza.com/wp-content/uploads/2024/09/Untitled-design-5-700x335.jpg');">
-                </div>
-                <div class="contract-details">
-                    <h3>Sustainable Corn Farming</h3>
-                    <div class="contract-meta">
-                        <span><i class="fas fa-dollar-sign"></i>&#8377;70,000</span>
-                        <span><i class="fas fa-calendar-alt"></i> 8 months</span>
-                    </div>
-                    <p class="contract-description">Contract for sustainable corn production using environmentally
-                        friendly practices.</p>
-                    <a href="#" class="btn btn-primary btn-view">View Details</a>
-                </div>
-            </div>
-
-            <div class="contract-card">
-                <div class="contract-image"
-                    style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXdaqQOKgR6BAIc_iHf4LqO04hBbyR_NkRTQ&s');">
-                </div>
-                <div class="contract-details">
-                    <h3>Organic Vegetable Supply</h3>
-                    <div class="contract-meta">
-                        <span><i class="fas fa-dollar-sign"></i> &#8377;30,000 </span>
-                        <span><i class="fas fa-calendar-alt"></i> 3 months</span>
-                    </div>
-                    <p class="contract-description">Need regular supply of organic vegetables for our restaurant chain
-                        in the region.</p>
-                    <a href="#" class="btn btn-primary btn-view">View Details</a>
-                </div>
-            </div>
+            <!-- Contract cards will be dynamically inserted here -->
         </div>
     </section>
 
@@ -140,6 +90,7 @@
             <a href="#" class="btn btn-outline">Contact Sales</a>
         </div>
     </section>
+    
     <div class="register-container">
         <div class="register-card">
             <h2>Create Your Account</h2>
@@ -210,6 +161,7 @@
             </form>
         </div>
     </div>
+
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -240,23 +192,28 @@
             &copy; 2025 ContractFarming. All rights reserved.
         </div>
     </footer>    
-</body>
 
-<script>
-window.addEventListener('DOMContentLoaded', async () => {
-    const container = document.querySelector('.contract-grid');
-    const res = await fetch('https://contract-farming-backend.onrender.com/api/tenders');
-    const tenders = await res.json();
-  
-    container.innerHTML = tenders.map(t => `
-      <div class="contract-card">
-        <div class="contract-details">
-          <h3>${t.title}</h3>
-          <p>${t.details}</p>
-          <span>Value: ₹${t.value}</span><br/>
-          <a href="bid.html?tenderId=${t._id}" class="btn btn-primary">Bid Now</a>
-        </div>
-      </div>
-    `).join('');
-  });
-</script>
+    <script>
+    async function fetchAndDisplayTenders() {
+        const container = document.querySelector('.contract-grid');
+        const res = await fetch('https://contract-farming-backend.onrender.com/api/tenders');
+        const tenders = await res.json();
+
+        container.innerHTML = tenders.map(t => `
+            <div class="contract-card">
+                <div class="contract-image" style="background-image: url('${t.imageUrl}');"></div> <!-- Display the image -->
+                <div class="contract-details">
+                    <h3>${t.title}</h3>
+                    <p>${t.details}</p>
+                    <span>Value: ₹${t.value}</span><br/>
+                    <a href="bid.html?tenderId=${t._id}" class="btn btn-primary">Bid Now</a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Call this function on page load to display existing tenders
+    window.addEventListener('DOMContentLoaded', fetchAndDisplayTenders);
+    </script>
+</body>
+</html>
