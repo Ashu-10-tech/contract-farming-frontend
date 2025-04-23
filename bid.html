@@ -1,71 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bid on Tender</title>
-    <link rel="stylesheet" href="style.css">
+<html>
+<head><title>Farmer Dashboard</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+  }
+  header, footer {
+    background-color: #1e8a3b;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  nav {
+    background-color: #1e8a3b;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+  }
+  nav .nav-links a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+  }
+  nav .nav-links a:hover {
+    text-decoration: underline;
+  }
+  .container {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  h2, h3 {
+    color: #1e8a3b;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  input, textarea, select, button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  button {
+    background-color: #1e3a8a;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+  }
+  button:hover {
+    background-color: #374151;
+  }
+  .card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 6px;
+    background-color: #fafafa;
+    margin-top: 15px;
+  }
+</style>
 </head>
 <body>
-    <nav>
-        <div class="navbar">
-            <a href="index.html" class="logo">FARM TECH</a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="login.html">Login</a>
-                <a href="register.html">Register</a>
-                <a href="upload-tender.html">Upload Tender</a>
-                <a href="bid.html">Bid on Tender</a>
-            </div>
-        </div>
-    </nav>
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Place Your Bid</h1>
-            <p>Submit your bid for the selected tender.</p>
-        </div>
-    </section>
-    <div class="form-container">
-        <form id="bid-form">
-            <input type="text" id="tender-id" placeholder="Tender ID" required>
-            <input type="number" id="bid-amount" placeholder="Bid Amount" required>
-            <button type="submit" class="btn btn-primary">Submit Bid</button>
-        </form>
-    </div>
-    <footer>
-        <div class="footer-content">
-            <h3>About Us</h3>
-            <p>Connecting farmers with companies for sustainable agriculture and fair contracts.</p>
-        </div>
-        <div class="copyright">
-            &copy; 2025 ContractFarming. All rights reserved.
-        </div>
-    </footer>
+<header><h1>Farmer Dashboard</h1></header>
+    <nav class="nav-bar">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </nav>
+<div class="container">
+  <h2>Available Tenders</h2>
+  <div id="tenders-list" class="card">Loading tenders...</div>
+</div>
+<footer><p>&copy; 2025 Contract Farming</p></footer>
 </body>
 </html>
-<script>
-document.getElementById('bid-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const urlParams = new URLSearchParams(window.location.search);
-    const tenderId = urlParams.get('tenderId');
-    const amount = document.getElementById('bid-amount').value;
-    const token = localStorage.getItem('token');
-  
-    const res = await fetch(`https://contract-farming-backend.onrender.com/api/tenders/${tenderId}/bid`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': token
-      },
-      body: JSON.stringify({ amount })
-    });
-  
-    const data = await res.json();
-    if (res.ok) {
-      alert('Bid submitted successfully!');
-      window.location.href = 'index.html';
-    } else {
-      alert(data.error);
-    }
-  });
-</script> 
